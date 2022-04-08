@@ -1,8 +1,30 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EBBC904E-1BE6-4710-91DB-B6D7DF38C8B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FE732446-D349-4749-8357-A861FCE24BE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsometrixTests", "tests\IsometrixTests\IsometrixTests.csproj", "{8A86DCB4-C75B-41D3-A6E4-C28D0797C8C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Isometrix", "src\Isometrix\Isometrix.csproj", "{F2B67DF3-6BA7-4ADD-9A25-DF45154EB63A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8A86DCB4-C75B-41D3-A6E4-C28D0797C8C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A86DCB4-C75B-41D3-A6E4-C28D0797C8C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A86DCB4-C75B-41D3-A6E4-C28D0797C8C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A86DCB4-C75B-41D3-A6E4-C28D0797C8C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2B67DF3-6BA7-4ADD-9A25-DF45154EB63A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2B67DF3-6BA7-4ADD-9A25-DF45154EB63A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2B67DF3-6BA7-4ADD-9A25-DF45154EB63A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2B67DF3-6BA7-4ADD-9A25-DF45154EB63A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8A86DCB4-C75B-41D3-A6E4-C28D0797C8C3} = {FE732446-D349-4749-8357-A861FCE24BE9}
+		{F2B67DF3-6BA7-4ADD-9A25-DF45154EB63A} = {EBBC904E-1BE6-4710-91DB-B6D7DF38C8B0}
 	EndGlobalSection
 EndGlobal
