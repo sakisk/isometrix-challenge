@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using FluentAssertions;
 using Isometrix;
 using Xunit;
@@ -21,10 +22,20 @@ public class StringCalculatorTests
         new StringCalculator().Add(numbers).Should().Be(expected);
     }
     
-    [Fact]
-    public void SHouldReturnSumWhenAddingTwoNumbers()
+    [Theory]
+    [InlineData("1,1", 2)]
+    [InlineData("1,2", 3)]
+    public void ShouldReturnSumWhenAddingTwoNumbers(string numbers, int expected)
     {
-        new StringCalculator().Add("1,2").Should().Be(3);
+        new StringCalculator().Add(numbers).Should().Be(expected);
+    }
+    
+    [Theory]
+    [InlineData("1,2,3", 6)]
+    [InlineData("0,5,10", 15)]
+    public void ShouldReturnSumWhenAddingMultipleNumbers(string numbers, int expected)
+    {
+        new StringCalculator().Add(numbers).Should().Be(expected);
     }
     
 }
