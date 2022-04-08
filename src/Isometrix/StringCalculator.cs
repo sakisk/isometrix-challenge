@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -18,7 +19,12 @@ public class StringCalculator
             numbers = RemoveDelimiterDefinition(numbers);
         }
 
-        return numbers.Split(Delimiters.Add(extraDelimiter).ToArray()).Sum(int.Parse);
+        var ints = numbers.Split(Delimiters.Add(extraDelimiter).ToArray()).Select(int.Parse).ToImmutableList();
+        
+        if (ints.Any(x => x < 0))
+            throw new InvalidOperationException("Negatives not allowed");
+        
+        return ints.Sum();
     }
 
     private static bool HasDelimiterDefinition(string numbers) => numbers.StartsWith("//");
