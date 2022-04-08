@@ -21,4 +21,10 @@ public class StringCalculatorTests
         new StringCalculator().Add(numbers).Should().Be(expected);
     }
     
+    [Fact]
+    public void SHouldReturnSumWhenAddingTwoNumbers()
+    {
+        new StringCalculator().Add("1,2").Should().Be(3);
+    }
+    
 }
