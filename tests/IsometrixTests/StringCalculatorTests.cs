@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.InteropServices;
 using FluentAssertions;
 using Isometrix;
@@ -55,6 +56,13 @@ public class StringCalculatorTests
     public void ShouldFirstLineContainDelimiterDefinition(string numbers, int expected)
     {
         new StringCalculator().Add(numbers).Should().Be(expected);
+    }
+    
+    [Fact]
+    public void ShouldThrowWhenAddingNegativeNumber()
+    {
+        var addNegative = () => new StringCalculator().Add("-1");
+        addNegative.Should().Throw<InvalidOperationException>();
     }
     
 }
