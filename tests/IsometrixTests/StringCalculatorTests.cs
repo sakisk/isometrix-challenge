@@ -77,4 +77,11 @@ public class StringCalculatorTests
     {
         new StringCalculator().Add(numbers).Should().Be(expected);
     }
+    
+    [Fact]
+    public void ShouldAcceptDelimitersOfAnyLength()
+    {
+        new StringCalculator().Add("//[***]\n1***2***3").Should().Be(6);
+    }
+    
 }
