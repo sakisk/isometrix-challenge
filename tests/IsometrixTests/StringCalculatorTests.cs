@@ -40,7 +40,19 @@ public class StringCalculatorTests
     
     [Theory]
     [InlineData("1\n2,3", 6)]
+    [InlineData("1,2\n3", 6)]
+    [InlineData("1\n2\n3", 6)]
     public void ShouldReturnSumWhenAddingNumbersWithNewlines(string numbers, int expected)
+    {
+        new StringCalculator().Add(numbers).Should().Be(expected);
+    }
+    
+    [Theory]
+    [InlineData("//;\n1;2", 3)]
+    [InlineData("// \n1 2", 3)]
+    [InlineData("//|\n1|2", 3)]
+    [InlineData("//|\n1|2,3\n4", 10)]
+    public void ShouldFirstLineContainDelimiterDefinition(string numbers, int expected)
     {
         new StringCalculator().Add(numbers).Should().Be(expected);
     }
