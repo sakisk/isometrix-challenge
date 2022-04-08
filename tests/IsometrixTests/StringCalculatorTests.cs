@@ -12,10 +12,13 @@ public class StringCalculatorTests
         new StringCalculator().Add("").Should().Be(0);
     }
     
-    [Fact]
-    public void ShouldReturnNumberWhenAddingSingleNumber()
+    [Theory]
+    [InlineData("0", 0)]
+    [InlineData("1", 1)]
+    [InlineData("2", 2)]
+    public void ShouldReturnNumberWhenAddingSingleNumber(string numbers, int expected)
     {
-        new StringCalculator().Add("1").Should().Be(1);
+        new StringCalculator().Add(numbers).Should().Be(expected);
     }
     
 }

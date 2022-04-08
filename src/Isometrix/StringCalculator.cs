@@ -2,11 +2,5 @@ namespace Isometrix;
 
 public class StringCalculator
 {
-    public int Add(string numbers)
-    {
-        if (numbers is {Length: > 0})
-            return int.Parse(numbers);
-        
-        return 0;
-    }
+    public int Add(string numbers) => numbers is {Length: > 0} ? int.Parse(numbers): 0;
 }
