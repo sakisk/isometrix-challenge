@@ -38,4 +38,11 @@ public class StringCalculatorTests
         new StringCalculator().Add(numbers).Should().Be(expected);
     }
     
+    [Theory]
+    [InlineData("1\n2,3", 6)]
+    public void ShouldReturnSumWhenAddingNumbersWithNewlines(string numbers, int expected)
+    {
+        new StringCalculator().Add(numbers).Should().Be(expected);
+    }
+    
 }
