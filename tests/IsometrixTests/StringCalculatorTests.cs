@@ -26,6 +26,7 @@ public class StringCalculatorTests
     [Theory]
     [InlineData("1,1", 2)]
     [InlineData("1,2", 3)]
+    [InlineData("1000,2", 1002)]
     public void ShouldReturnSumWhenAddingTwoNumbers(string numbers, int expected)
     {
         new StringCalculator().Add(numbers).Should().Be(expected);
@@ -68,10 +69,12 @@ public class StringCalculatorTests
         addNegative.Should().Throw<InvalidOperationException>(because: expected);
     }
     
-    [Fact]
-    public void ShouldIngoreNumberBiggerThan1000()
+    [Theory]
+    [InlineData("1001,2", 2)]
+    [InlineData("2000,2", 2)]
+    [InlineData("1001,2000", 0)]
+    public void ShouldIgnoreNumbersBiggerThan1000(string numbers, int expected)
     {
-        new StringCalculator().Add("1001,2").Should().Be(2);
+        new StringCalculator().Add(numbers).Should().Be(expected);
     }
-    
 }

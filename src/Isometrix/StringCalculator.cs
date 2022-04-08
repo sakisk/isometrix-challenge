@@ -22,7 +22,7 @@ public class StringCalculator
         if (HasNegativeNumbers(ints, out var negatives))
             throw new InvalidOperationException($"Negatives not allowed: {string.Join(',', negatives)}");
 
-        return ints.Sum();
+        return ints.Where(number => number <= 1000).Sum();
     }
 
     private static bool HasNegativeNumbers(IReadOnlyList<int> numbers, out IReadOnlyList<int> negatives)
