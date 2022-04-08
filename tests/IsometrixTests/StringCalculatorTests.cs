@@ -68,4 +68,10 @@ public class StringCalculatorTests
         addNegative.Should().Throw<InvalidOperationException>(because: expected);
     }
     
+    [Fact]
+    public void ShouldIngoreNumberBiggerThan1000()
+    {
+        new StringCalculator().Add("1001,2").Should().Be(2);
+    }
+    
 }
