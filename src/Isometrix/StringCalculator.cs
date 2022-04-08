@@ -14,21 +14,26 @@ public class StringCalculator
         if (numbers is not {Length: > 0})
             return 0;
 
-        if (TryGetExtraDelimiter(numbers, out var extraDelimiter))
-        {
+        if (TryGetExtraDelimiter(numbers, out var extraDelimiter)) 
             numbers = RemoveDelimiterDefinition(numbers);
-        }
 
         var ints = numbers.Split(Delimiters.Add(extraDelimiter).ToArray()).Select(int.Parse).ToImmutableList();
-        
-        if (ints.Any(x => x < 0))
-            throw new InvalidOperationException("Negatives not allowed");
-        
+
+        if (HasNegativeNumbers(ints, out var negatives))
+            throw new InvalidOperationException($"Negatives not allowed: {string.Join(',', negatives)}");
+
         return ints.Sum();
     }
 
+    private static bool HasNegativeNumbers(IReadOnlyList<int> numbers, out IReadOnlyList<int> negatives)
+    {
+        negatives = numbers.Where(number => number < 0).ToImmutableList();
+
+        return negatives.Any();
+    }
+
     private static bool HasDelimiterDefinition(string numbers) => numbers.StartsWith("//");
-    
+
     private static bool TryGetExtraDelimiter(string numbers, out char extraDelimiter)
     {
         if (HasDelimiterDefinition(numbers))

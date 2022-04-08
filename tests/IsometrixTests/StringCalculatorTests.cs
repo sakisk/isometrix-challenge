@@ -58,11 +58,14 @@ public class StringCalculatorTests
         new StringCalculator().Add(numbers).Should().Be(expected);
     }
     
-    [Fact]
-    public void ShouldThrowWhenAddingNegativeNumber()
+    [Theory]
+    [InlineData("-1", "Negatives not allowed: -1")]
+    [InlineData("-1,-2", "Negatives not allowed: -1,-2")]
+    [InlineData("-1,2", "Negatives not allowed: -1")]
+    public void ShouldThrowWhenAddingNegativeNumber(string numbers, string expected)
     {
-        var addNegative = () => new StringCalculator().Add("-1");
-        addNegative.Should().Throw<InvalidOperationException>();
+        var addNegative = () => new StringCalculator().Add(numbers);
+        addNegative.Should().Throw<InvalidOperationException>(because: expected);
     }
     
 }
