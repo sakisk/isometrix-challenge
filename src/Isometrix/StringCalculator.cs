@@ -7,52 +7,56 @@ namespace Isometrix;
 
 public class StringCalculator
 {
-    private static readonly ImmutableList<char> DefaultDelimiters = new[] {',', '\n'}.ToImmutableList();
+    private const char Comma = ',';
+    private const char NewLine = '\n';
+    private const string DelimiterDefinitionStart = "//";
 
     public int Add(string numbers)
     {
         if (numbers is not {Length: > 0})
             return 0;
 
-        numbers = NomarmaliseDelimitedNumbers(numbers);
+        numbers = NomarmaliseDelimiters(numbers);
 
-        var ints = numbers.Split(DefaultDelimiters.ToArray()).Select(int.Parse).ToImmutableList();
+        var ints = numbers.Split(Comma).Select(int.Parse).ToImmutableList();
 
         if (HasNegativeNumbers(ints, out var negatives))
-            throw new InvalidOperationException($"Negatives not allowed: {string.Join(',', negatives)}");
+            throw new InvalidOperationException($"Negatives not allowed: {negatives}");
 
         return ints.Where(number => number <= 1000).Sum();
     }
 
-    private string NomarmaliseDelimitedNumbers(string numbers)
+    private string NomarmaliseDelimiters(string numbers)
     {
         if (!TryParseDelimiterDefinition(numbers, out var parsedDelimiter)) 
-            return numbers;
+            return numbers.Replace(NewLine, Comma);
         
         numbers = RemoveDelimiterDefinition(numbers);
-        return numbers.Replace(parsedDelimiter!, ",");
+        return numbers
+            .Replace(parsedDelimiter!, Comma.ToString())
+            .Replace(NewLine, Comma);
     }
     
-    private static bool HasNegativeNumbers(IReadOnlyList<int> numbers, out IReadOnlyList<int> negatives)
+    private static bool HasNegativeNumbers(IEnumerable<int> numbers, out string negatives)
     {
-        negatives = numbers.Where(number => number < 0).ToImmutableList();
+        negatives = string.Join(Comma, numbers.Where(number => number < 0));
 
-        return negatives.Any();
+        return negatives is {Length: > 0};
     }
 
-    private static bool HasDelimiterDefinition(string numbers) => numbers.StartsWith("//");
+    private static bool HasDelimiterDefinition(string numbers) => numbers.StartsWith(DelimiterDefinitionStart);
 
-    private static bool TryParseDelimiterDefinition(string numbers, out string? extraDelimiter)
+    private static bool TryParseDelimiterDefinition(string numbers, out string? parsedDelimiter)
     {
         if (HasDelimiterDefinition(numbers))
         {
-            extraDelimiter = TryGetMultipleLengthDelimiter(numbers, out var delimiter)
+            parsedDelimiter = TryGetMultipleLengthDelimiter(numbers, out var delimiter)
                 ? delimiter
                 : numbers[2].ToString();
             return true;
         }
 
-        extraDelimiter = default;
+        parsedDelimiter = default;
         return false;
     }
 
@@ -70,7 +74,7 @@ public class StringCalculator
 
     private static string RemoveDelimiterDefinition(string numbers)
     {
-        var firstNewLine = numbers.IndexOf('\n');
+        var firstNewLine = numbers.IndexOf(NewLine);
         return numbers[(firstNewLine + 1)..];
     }
 }
