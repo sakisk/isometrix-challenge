@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Isometrix;
 
@@ -62,9 +63,10 @@ public class StringCalculator
 
     private static bool TryGetMultipleLengthDelimiter(string numbers, out string? delimiter)
     {
-        if (numbers[2] == '[')
+        var regex = Regex.Match(numbers, @"\/\/\[(?'delimiter'.*)\]\n");
+        if (regex.Success)
         {
-            delimiter = numbers[3..numbers.IndexOf(']')];
+            delimiter = regex.Groups["delimiter"].Value;
             return true;
         }
         
