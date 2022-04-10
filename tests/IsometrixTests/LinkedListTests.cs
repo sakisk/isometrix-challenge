@@ -12,5 +12,11 @@ public class LinkedListTests
         new LinkedList<TestType>().First.Should().Be(null);
     }
     
+    [Fact]
+    public void ShouldCreateEmptyWithNullFirstNodeAValueType()
+    {
+        new LinkedList<int>().First.Should().Be(null);
+    }
+    
     private class TestType { }
 }
