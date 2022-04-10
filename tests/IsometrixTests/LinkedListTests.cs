@@ -91,6 +91,25 @@ public class LinkedListTests
         sut.First!.Next!.Data.Should().Be(last);
         sut.First!.Next!.Next.Should().BeNull();
     }
+
+    [Fact]
+    public void ShouldAddLastManyTimes()
+    {
+        const int first = 1;
+        const int second = 2;
+        const int third = 3;
+        
+        var sut = new LinkedList<int>();
+        
+        sut.AddLast(first);
+        sut.AddLast(second);
+        sut.AddLast(third);
+
+        using var _ = new AssertionScope();
+        sut.First!.Data.Should().Be(first);
+        sut.First!.Next!.Data.Should().Be(second);
+        sut.First!.Next!.Next!.Data.Should().Be(third);
+    }
     
     private class TestType
     {
