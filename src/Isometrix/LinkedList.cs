@@ -67,32 +67,6 @@ public class LinkedList<T>
         oldPrevious.Next = inserted;
     }
 
-    private static LinkedListNode<T> GetLast(LinkedListNode<T> start)
-    {
-        var current = start;
-        while (current is {Next: { } next})
-            current = next;
-
-        return current;
-    }
-
-    private LinkedListNode<T> FindNode(T existing)
-    {
-        var current = First;
-        while (current is {Next: { } next})
-        {
-            if (current.Data is not null && current.Data.Equals(existing))
-                return current;
-
-            current = next;
-        }
-
-        if (current is {Data: { } data} && data.Equals(existing))
-            return current;
-
-        throw new InvalidOperationException($"Element {existing} not found in any node");
-    }
-
     public void RemoveFirst()
     {
         if (First is {Next: { } next})
@@ -120,7 +94,7 @@ public class LinkedList<T>
     public void RemoveElement(T element)
     {
         var node = FindNode(element);
-
+        
         if (node.Previous is null)
         {
             RemoveFirst();
@@ -132,6 +106,36 @@ public class LinkedList<T>
             RemoveLast();
             return;
         }
-        
+
+        var previous = node.Previous;
+        var next = node.Next;
+        previous.Next = next;
+        next.Previous = previous;
+    }
+
+    private static LinkedListNode<T> GetLast(LinkedListNode<T> start)
+    {
+        var current = start;
+        while (current is {Next: { } next})
+            current = next;
+
+        return current;
+    }
+
+    private LinkedListNode<T> FindNode(T existing)
+    {
+        var current = First;
+        while (current is {Next: { } next})
+        {
+            if (current.Data is not null && current.Data.Equals(existing))
+                return current;
+
+            current = next;
+        }
+
+        if (current is {Data: { } data} && data.Equals(existing))
+            return current;
+
+        throw new InvalidOperationException($"Element {existing} not found in any node");
     }
 }

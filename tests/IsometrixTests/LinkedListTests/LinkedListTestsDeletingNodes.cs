@@ -1,3 +1,4 @@
+using System;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
@@ -118,4 +119,41 @@ public class LinkedListTestsDeletingNodes
         sut.Last!.Data.Should().Be(second);
         sut.Last!.Next.Should().BeNull();
     }
+    
+    [Fact]
+    public void ShouldRemoveElementWhenExistsInMiddleNode()
+    {
+        const int first = 1;
+        const int second = 2;
+        const int third = 3;
+        const int fourth = 4;
+        
+        var sut = new LinkedListBuilder<int>().WithElementsFromLast(first, second, third, fourth).Build();
+        
+        sut.RemoveElement(second);
+        
+        using var _ = new AssertionScope();
+        sut.First!.Data.Should().Be(first);
+        sut.First!.Previous.Should().BeNull();
+        sut.First!.Next!.Data.Should().Be(third);
+        sut.Last!.Previous!.Data.Should().Be(third);
+        sut.Last!.Data.Should().Be(fourth);
+        sut.Last!.Next.Should().BeNull();
+    }
+    
+    [Fact]
+    public void ShouldThrowWhenRemovingElementDoesNotExist()
+    {
+        const int first = 1;
+        const int second = 2;
+        const int third = 3;
+        const int fourth = 4;
+        
+        var sut = new LinkedListBuilder<int>().WithElementsFromLast(first, second, third, fourth).Build();
+        
+        var removeNonExisting = () => sut.RemoveElement(5);
+        
+        removeNonExisting.Should().Throw<InvalidOperationException>().WithMessage("Element 5 not found in any node");
+    }
+    
 }
