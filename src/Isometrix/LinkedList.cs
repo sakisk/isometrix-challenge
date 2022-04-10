@@ -107,5 +107,13 @@ public class LinkedList<T>
 
     public void RemoveLast()
     {
+        if (First is {Next: { } next })
+        {
+            var last = GetLast(next);
+            last.Previous!.Next = null;
+            return;
+        }
+        
+        First = null;
     }
 }

@@ -1,4 +1,5 @@
 using FluentAssertions;
+using FluentAssertions.Execution;
 using Xunit;
 
 namespace IsometrixTests.LinkedListTests;
@@ -50,4 +51,17 @@ public class LinkedListTestsDeletingNodes
 
         sut.Last.Should().BeNull();
     }
+    
+    [Fact]
+    public void ShouldRemoveLastInAListWithOneNode()
+    {
+        var sut = new LinkedListBuilder<int>().WithElementsFromStart(1).Build();
+
+        sut.RemoveLast();
+
+        using var _ = new AssertionScope();
+        sut.First.Should().BeNull();
+        sut.Last.Should().BeNull();
+    }
+    
 }
