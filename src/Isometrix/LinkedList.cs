@@ -58,5 +58,7 @@ public class LinkedList<T>
             }
             current = next;
         }
+
+        throw new InvalidOperationException($"Element {existing} not found in any node");
     }
 }

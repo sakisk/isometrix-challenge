@@ -123,6 +123,23 @@ public class LinkedListTests
         sut.First!.Next!.Next!.Next!.Data.Should().Be(third);
     }
 
+    [Fact]
+    public void ShouldThrow_WhenAddingAfterAnElementNotExistingInAnyNode()
+    {
+        
+        const int first = 1;
+        const int second = 2;
+        const int third = 3;
+        const int notExisting = 4;
+        const int inserted = 5;
+
+        var sut = new LinkedListBuilder<int>().WithElementsFromLast(first, second, third).Build();
+
+        var addAfterNonExisting = () => sut.AddAfter(notExisting, inserted);
+        
+        addAfterNonExisting.Should().Throw<InvalidOperationException>().WithMessage($"Element {notExisting} not found in any node");
+    }
+
     private class TestType
     {
     }
