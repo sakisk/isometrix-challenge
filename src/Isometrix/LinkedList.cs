@@ -116,4 +116,12 @@ public class LinkedList<T>
         
         First = null;
     }
+
+    public void RemoveElement(T element)
+    {
+        var node = FindNode(element);
+        
+        if (node.Previous is null)
+            RemoveFirst();
+    }
 }

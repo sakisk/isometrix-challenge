@@ -32,11 +32,11 @@ public class LinkedListTestsDeletingNodes
         const int first = 1;
         const int second = 2;
         const int third = 3;
-        
+
         var sut = new LinkedListBuilder<int>().WithElementsFromLast(first, second, third).Build();
-        
+
         sut.RemoveFirst();
-        
+
         sut.First!.Data.Should().Be(second);
         sut.First!.Previous.Should().BeNull();
         sut.First.Next!.Data.Should().Be(third);
@@ -53,7 +53,7 @@ public class LinkedListTestsDeletingNodes
         sut.First.Should().BeNull();
         sut.Last.Should().BeNull();
     }
-    
+
     [Fact]
     public void ShouldRemoveLastInAListWithOneNode()
     {
@@ -65,9 +65,27 @@ public class LinkedListTestsDeletingNodes
         sut.First.Should().BeNull();
         sut.Last.Should().BeNull();
     }
-    
+
     [Fact]
     public void ShouldRemoveLastInAListWithMoreThanOneNode()
+    {
+        const int first = 1;
+        const int second = 2;
+        const int third = 3;
+
+        var sut = new LinkedListBuilder<int>().WithElementsFromLast(first, second, third).Build();
+
+        sut.RemoveLast();
+
+        using var _ = new AssertionScope();
+        sut.First!.Data.Should().Be(first);
+        sut.First!.Next.Should().NotBeNull();
+        sut.Last!.Data.Should().Be(second);
+        sut.Last!.Next.Should().BeNull();
+    }
+
+    [Fact]
+    public void ShouldRemoveElementWhenExistsInFirstNode()
     {
         const int first = 1;
         const int second = 2;
@@ -75,12 +93,11 @@ public class LinkedListTestsDeletingNodes
         
         var sut = new LinkedListBuilder<int>().WithElementsFromLast(first, second, third).Build();
         
-        sut.RemoveLast();
+        sut.RemoveElement(first);
         
         using var _ = new AssertionScope();
-        sut.First!.Data.Should().Be(first);
-        sut.First!.Next.Should().NotBeNull();
-        sut.Last!.Data.Should().Be(second);
-        sut.Last!.Next.Should().BeNull();
+        sut.First!.Data.Should().Be(second);
+        sut.First!.Previous.Should().BeNull();
+        sut.Last!.Data.Should().Be(third);
     }
 }
