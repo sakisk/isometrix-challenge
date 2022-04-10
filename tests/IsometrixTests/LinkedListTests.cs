@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Isometrix;
@@ -9,24 +10,25 @@ namespace IsometrixTests;
 public class LinkedListTests
 {
     [Fact]
-    public void ShouldCreateEmptyWithNullFirstNodeAReferenceType()
+    public void ShouldCreateEmptyWithNullFirstAndLastNodeAReferenceType()
     {
         new LinkedList<TestType>().First.Should().Be(null);
+        new LinkedList<TestType>().Last.Should().Be(null);
     }
 
     [Fact]
-    public void ShouldCreateEmptyWithNullFirstNodeAValueType()
+    public void ShouldCreateEmptyWithNullFirstAndLastNodeAValueType()
     {
         new LinkedList<int>().First.Should().Be(null);
+        new LinkedList<int>().Last.Should().Be(null);
     }
 
     [Fact]
     public void ShouldAddFirstNode()
     {
         const int expected = 1;
-        var sut = new LinkedList<int>();
         
-        sut.AddFirst(expected);
+        var sut = new LinkedListBuilder<int>().WithElementsFromStart(expected).Build();
 
         sut.First!.Data.Should().Be(expected);
     }
@@ -36,10 +38,8 @@ public class LinkedListTests
     {
         const int old = 1;
         const int newFirstNode = 2;
-        var sut = new LinkedList<int>();
         
-        sut.AddFirst(old);
-        sut.AddFirst(newFirstNode);
+        var sut = new LinkedListBuilder<int>().WithElementsFromStart(old, newFirstNode).Build();
 
         using var _ = new AssertionScope();
         sut.First!.Data.Should().Be(newFirstNode);
@@ -52,12 +52,8 @@ public class LinkedListTests
         const int first = 1;
         const int second = 2;
         const int third = 3;
-        
-        var sut = new LinkedList<int>();
-        
-        sut.AddFirst(first);
-        sut.AddFirst(second);
-        sut.AddFirst(third);
+
+        var sut = new LinkedListBuilder<int>().WithElementsFromStart(first, second, third).Build();
 
         using var _ = new AssertionScope();
         sut.First!.Data.Should().Be(third);
@@ -69,27 +65,28 @@ public class LinkedListTests
     public void ShouldAddLastNodeWhenFirstDoesNotExist_ThenBecomesFirst()
     {
         const int expected = 1;
-        var sut = new LinkedList<int>();
         
-        sut.AddLast(expected);
+        var sut = new LinkedListBuilder<int>().WithElementsFromLast(expected).Build();
 
         sut.First!.Data.Should().Be(expected);
+        sut.Last!.Data.Should().Be(expected);
+        sut.Last!.Next.Should().BeNull();
     }
-    
+
     [Fact]
-    public void ShouldAddLastNodeWhenFirstExist_ThenBecomesFirstHasNext()
+    public void ShouldAddLastNodeWhenFirstExist()
     {
         const int first = 1;
         const int last = 2;
-        var sut = new LinkedList<int>();
         
-        sut.AddFirst(first);
-        sut.AddLast(last);
+        var sut = new LinkedListBuilder<int>()
+            .WithElementsFromStart(first)
+            .WithElementsFromLast(last)
+            .Build();
 
         using var _ = new AssertionScope();
         sut.First!.Data.Should().Be(first);
-        sut.First!.Next!.Data.Should().Be(last);
-        sut.First!.Next!.Next.Should().BeNull();
+        sut.Last!.Data.Should().Be(last);
     }
 
     [Fact]
@@ -98,19 +95,15 @@ public class LinkedListTests
         const int first = 1;
         const int second = 2;
         const int third = 3;
-        
-        var sut = new LinkedList<int>();
-        
-        sut.AddLast(first);
-        sut.AddLast(second);
-        sut.AddLast(third);
+
+        var sut = new LinkedListBuilder<int>().WithElementsFromLast(first, second, third).Build();
 
         using var _ = new AssertionScope();
         sut.First!.Data.Should().Be(first);
         sut.First!.Next!.Data.Should().Be(second);
-        sut.First!.Next!.Next!.Data.Should().Be(third);
+        sut.Last!.Data.Should().Be(third);
     }
-    
+
     private class TestType
     {
     }
