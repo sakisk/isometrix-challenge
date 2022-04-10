@@ -34,6 +34,29 @@ public class LinkedList<T>
         last.Previous = currentLast;
     }
 
+    public void AddAfter(T existing, T insertedElement)
+    {
+        var inserted = new LinkedListNode<T>(insertedElement);
+        var node = FindNode(existing);
+        var oldNext = node.Next;
+
+        node.Next = inserted;
+        inserted.Next = oldNext;
+        inserted.Previous = node;
+    }
+
+    public void AddBefore(T existing, T insertedElement)
+    {
+        var inserted = new LinkedListNode<T>(insertedElement);
+        var node = FindNode(existing);
+        var oldPrevious = node.Previous;
+        
+        node.Previous = inserted;
+        inserted.Next = node;
+        inserted.Previous = oldPrevious;
+        oldPrevious!.Next = inserted;
+    }
+
     private static LinkedListNode<T> GetLast(LinkedListNode<T> start)
     {
         var current = start;
@@ -43,59 +66,19 @@ public class LinkedList<T>
         return current;
     }
 
-    public void AddAfter(T existing, T insertedElement)
+    private LinkedListNode<T> FindNode(T existing)
     {
         var current = First;
-        var inserted = new LinkedListNode<T>(insertedElement);
-        
-        if (Last is {Data: not null} && Last.Data.Equals(existing))
-        {
-            Last.Next = inserted;
-            return;
-        }
-        
         while (current is {Next: { } next})
         {
             if (current.Data is not null && current.Data.Equals(existing))
-            {
-                var oldNext = current.Next;
-                current.Next = inserted;
-                inserted.Next = oldNext;
-                inserted.Previous = current;
-                return;
-            }
+                return current;
+
             current = next;
         }
 
-        throw new InvalidOperationException($"Element {existing} not found in any node");
-    }
-
-    public void AddBefore(T existing, T insertedElement)
-    {
-        var current = First;
-        var inserted = new LinkedListNode<T>(insertedElement);
-        
-        if (Last is {Data: not null} && Last.Data.Equals(existing))
-        {
-            Last.Next = inserted;
-            return;
-        }
-        
-        while (current is {Next: { } next})
-        {
-            if (current.Data is not null && current.Data.Equals(existing))
-            {
-                var oldPrevious = current.Previous;
-                var oldNext = current.Next;
-                
-                current.Previous = inserted;
-                inserted.Next = current;
-                inserted.Previous = oldPrevious;
-                oldPrevious.Next = inserted;
-                return;
-            }
-            current = next;
-        }
+        if (current is {Data: { } data} && data.Equals(existing))
+            return current;
 
         throw new InvalidOperationException($"Element {existing} not found in any node");
     }
