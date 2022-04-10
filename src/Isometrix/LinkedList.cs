@@ -95,6 +95,13 @@ public class LinkedList<T>
 
     public void RemoveFirst()
     {
+        if (First is {Next: { } next})
+        {
+            First = next;
+            next.Previous = null;
+            return;
+        }
+
         First = null;
     }
 }
