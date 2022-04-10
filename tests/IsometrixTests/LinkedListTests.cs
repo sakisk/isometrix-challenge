@@ -153,6 +153,25 @@ public class LinkedListTests
         addAfterNonExisting.Should().Throw<InvalidOperationException>().WithMessage($"Element {notExisting} not found in any node");
     }
 
+    [Fact]
+    public void ShouldAddElementBeforeAnExistingNode()
+    {
+        const int first = 1;
+        const int second = 2;
+        const int third = 3;
+        const int inserted = 4;
+
+        var sut = new LinkedListBuilder<int>().WithElementsFromLast(first, second, third).Build();
+
+        sut.AddBefore(second, inserted);
+
+        using var _ = new AssertionScope();
+        sut.First!.Data.Should().Be(first);
+        sut.First!.Next!.Data.Should().Be(inserted);
+        sut.First!.Next!.Next!.Data.Should().Be(second);
+        sut.First!.Next!.Next!.Next!.Data.Should().Be(third);
+    }
+    
     private class TestType
     {
     }

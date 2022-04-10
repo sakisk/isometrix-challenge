@@ -31,6 +31,7 @@ public class LinkedList<T>
         var currentLast = GetLast(current);
 
         currentLast.Next = last;
+        last.Previous = currentLast;
     }
 
     private static LinkedListNode<T> GetLast(LinkedListNode<T> start)
@@ -60,6 +61,37 @@ public class LinkedList<T>
                 var oldNext = current.Next;
                 current.Next = inserted;
                 inserted.Next = oldNext;
+                inserted.Previous = current;
+                return;
+            }
+            current = next;
+        }
+
+        throw new InvalidOperationException($"Element {existing} not found in any node");
+    }
+
+    public void AddBefore(T existing, T insertedElement)
+    {
+        var current = First;
+        var inserted = new LinkedListNode<T>(insertedElement);
+        
+        if (Last is {Data: not null} && Last.Data.Equals(existing))
+        {
+            Last.Next = inserted;
+            return;
+        }
+        
+        while (current is {Next: { } next})
+        {
+            if (current.Data is not null && current.Data.Equals(existing))
+            {
+                var oldPrevious = current.Previous;
+                var oldNext = current.Next;
+                
+                current.Previous = inserted;
+                inserted.Next = current;
+                inserted.Previous = oldPrevious;
+                oldPrevious.Next = inserted;
                 return;
             }
             current = next;
