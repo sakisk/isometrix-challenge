@@ -4,8 +4,13 @@ public class LinkedList<T>
 {
     public LinkedListNode<T>? First { get; private set; }
 
-    public void AddFirst(T first)
+    public void AddFirst(T newNode)
     {
-        First = new LinkedListNode<T>(first);
+        var newFirstNode = new LinkedListNode<T>(newNode)
+        {
+            Next = First
+        };
+
+        First = newFirstNode;
     }
 }
