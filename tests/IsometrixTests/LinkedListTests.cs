@@ -76,6 +76,21 @@ public class LinkedListTests
         sut.First!.Data.Should().Be(expected);
     }
     
+    [Fact]
+    public void ShouldAddLastNodeWhenFirstExist_ThenBecomesFirstHasNext()
+    {
+        const int first = 1;
+        const int last = 2;
+        var sut = new LinkedList<int>();
+        
+        sut.AddFirst(first);
+        sut.AddLast(last);
+
+        using var _ = new AssertionScope();
+        sut.First!.Data.Should().Be(first);
+        sut.First!.Next!.Data.Should().Be(last);
+        sut.First!.Next!.Next.Should().BeNull();
+    }
     
     private class TestType
     {

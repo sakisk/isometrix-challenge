@@ -15,8 +15,21 @@ public class LinkedList<T>
 
         First = newFirstNode;
     }
+    
     public void AddLast(T element)
     {
-        First ??= new LinkedListNode<T>(element);
+        var last = new LinkedListNode<T>(element);
+        
+        if (First is null)
+        {
+            First = last;
+            return;
+        }
+
+        var current = First;
+        while (current is {Next: {} next}) 
+            current = next;
+        
+        current.Next = last;
     }
 }
