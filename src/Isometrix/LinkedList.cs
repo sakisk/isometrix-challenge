@@ -120,8 +120,18 @@ public class LinkedList<T>
     public void RemoveElement(T element)
     {
         var node = FindNode(element);
-        
+
         if (node.Previous is null)
+        {
             RemoveFirst();
+            return;
+        }
+
+        if (node.Next is null)
+        {
+            RemoveLast();
+            return;
+        }
+        
     }
 }

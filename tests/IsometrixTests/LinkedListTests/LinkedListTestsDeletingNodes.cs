@@ -100,4 +100,22 @@ public class LinkedListTestsDeletingNodes
         sut.First!.Previous.Should().BeNull();
         sut.Last!.Data.Should().Be(third);
     }
+    
+    [Fact]
+    public void ShouldRemoveElementWhenExistsInLastNode()
+    {
+        const int first = 1;
+        const int second = 2;
+        const int third = 3;
+        
+        var sut = new LinkedListBuilder<int>().WithElementsFromLast(first, second, third).Build();
+        
+        sut.RemoveElement(third);
+        
+        using var _ = new AssertionScope();
+        sut.First!.Data.Should().Be(first);
+        sut.First!.Previous.Should().BeNull();
+        sut.Last!.Data.Should().Be(second);
+        sut.Last!.Next.Should().BeNull();
+    }
 }
