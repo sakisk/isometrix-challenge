@@ -92,4 +92,9 @@ public class LinkedList<T>
 
         throw new InvalidOperationException($"Element {existing} not found in any node");
     }
+
+    public void RemoveFirst()
+    {
+        First = null;
+    }
 }

@@ -5,26 +5,8 @@ using Xunit;
 
 namespace IsometrixTests;
 
-public class LinkedListTests
+public class LinkedListTestsInsertingNodes
 {
-    [Fact]
-    public void ShouldCreateEmptyWithNullFirstAndLastNodeAReferenceType()
-    {
-        var sut = new Isometrix.LinkedList<TestType>();
-        
-        sut.First.Should().Be(null);
-        sut.Last.Should().Be(null);
-    }
-
-    [Fact]
-    public void ShouldCreateEmptyWithNullFirstAndLastNodeAValueType()
-    {
-        var sut = new Isometrix.LinkedList<int>();
-        
-        sut.First.Should().Be(null);
-        sut.Last.Should().Be(null);
-    }
-
     [Fact]
     public void ShouldAddFirstNodeInAnEmptyList()
     {
@@ -224,7 +206,5 @@ public class LinkedListTests
         sut.First!.Next!.Data.Should().Be(first);
     }
     
-    private class TestType
-    {
-    }
+    
 }
