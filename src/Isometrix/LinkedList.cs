@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Isometrix;
 
@@ -15,9 +16,9 @@ public class LinkedList<T>
             Next = oldFirst
         };
 
-       if (oldFirst is { })
-           oldFirst.Previous = newFirstNode;
-       
+        if (oldFirst is { })
+            oldFirst.Previous = newFirstNode;
+
         First = newFirstNode;
     }
 
@@ -81,20 +82,20 @@ public class LinkedList<T>
 
     public void RemoveLast()
     {
-        if (First is {Next: { } next })
+        if (First is {Next: { } next})
         {
             var last = GetLast(next);
             last.Previous!.Next = null;
             return;
         }
-        
+
         First = null;
     }
 
     public void RemoveElement(T element)
     {
         var node = FindNode(element);
-        
+
         if (node.Previous is null)
         {
             RemoveFirst();
@@ -137,5 +138,22 @@ public class LinkedList<T>
             return current;
 
         throw new InvalidOperationException($"Element {existing} not found in any node");
+    }
+
+    public IEnumerable<T> GetData()
+    {
+        if (First is null)
+            yield break;
+
+        if (First is {Data: { }})
+            yield return First.Data;
+
+        var current = First;
+
+        while (current is {Next: { } next})
+        {
+            yield return next.Data;
+            current = next;
+        }
     }
 }
