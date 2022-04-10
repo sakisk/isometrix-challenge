@@ -3,7 +3,7 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
 
-namespace IsometrixTests;
+namespace IsometrixTests.LinkedListTests;
 
 public class LinkedListTestsInsertingNodes
 {
