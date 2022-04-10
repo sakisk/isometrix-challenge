@@ -49,6 +49,8 @@ public class LinkedListTestsDeletingNodes
 
         sut.RemoveLast();
 
+        using var _ = new AssertionScope();
+        sut.First.Should().BeNull();
         sut.Last.Should().BeNull();
     }
     
@@ -64,4 +66,21 @@ public class LinkedListTestsDeletingNodes
         sut.Last.Should().BeNull();
     }
     
+    [Fact]
+    public void ShouldRemoveLastInAListWithMoreThanOneNode()
+    {
+        const int first = 1;
+        const int second = 2;
+        const int third = 3;
+        
+        var sut = new LinkedListBuilder<int>().WithElementsFromLast(first, second, third).Build();
+        
+        sut.RemoveLast();
+        
+        using var _ = new AssertionScope();
+        sut.First!.Data.Should().Be(first);
+        sut.First!.Next.Should().NotBeNull();
+        sut.Last!.Data.Should().Be(second);
+        sut.Last!.Next.Should().BeNull();
+    }
 }
