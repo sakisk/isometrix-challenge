@@ -1,8 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using Isometrix;
 using Xunit;
 
 namespace IsometrixTests;
@@ -12,22 +12,22 @@ public class LinkedListTests
     [Fact]
     public void ShouldCreateEmptyWithNullFirstAndLastNodeAReferenceType()
     {
-        new LinkedList<TestType>().First.Should().Be(null);
-        new LinkedList<TestType>().Last.Should().Be(null);
+        new Isometrix.LinkedList<TestType>().First.Should().Be(null);
+        new Isometrix.LinkedList<TestType>().Last.Should().Be(null);
     }
 
     [Fact]
     public void ShouldCreateEmptyWithNullFirstAndLastNodeAValueType()
     {
-        new LinkedList<int>().First.Should().Be(null);
-        new LinkedList<int>().Last.Should().Be(null);
+        new Isometrix.LinkedList<int>().First.Should().Be(null);
+        new Isometrix.LinkedList<int>().Last.Should().Be(null);
     }
 
     [Fact]
     public void ShouldAddFirstNode()
     {
         const int expected = 1;
-        
+
         var sut = new LinkedListBuilder<int>().WithElementsFromStart(expected).Build();
 
         sut.First!.Data.Should().Be(expected);
@@ -38,7 +38,7 @@ public class LinkedListTests
     {
         const int old = 1;
         const int newFirstNode = 2;
-        
+
         var sut = new LinkedListBuilder<int>().WithElementsFromStart(old, newFirstNode).Build();
 
         using var _ = new AssertionScope();
@@ -65,7 +65,7 @@ public class LinkedListTests
     public void ShouldAddLastNodeWhenFirstDoesNotExist_ThenBecomesFirst()
     {
         const int expected = 1;
-        
+
         var sut = new LinkedListBuilder<int>().WithElementsFromLast(expected).Build();
 
         sut.First!.Data.Should().Be(expected);
@@ -78,7 +78,7 @@ public class LinkedListTests
     {
         const int first = 1;
         const int last = 2;
-        
+
         var sut = new LinkedListBuilder<int>()
             .WithElementsFromStart(first)
             .WithElementsFromLast(last)
@@ -105,7 +105,7 @@ public class LinkedListTests
     }
 
     [Fact]
-    public void AddElementAfterNodeWithExistingElement()
+    public void ShouldAddElementAfterNodeWithExistingElement()
     {
         const int first = 1;
         const int second = 2;
@@ -124,9 +124,22 @@ public class LinkedListTests
     }
 
     [Fact]
+    public void ShouldAddElementAfterLastNode()
+    {
+        const int first = 1;
+        const int second = 2;
+        const int third = 3;
+        const int inserted = 4;
+
+        var sut = new LinkedListBuilder<int>().WithElementsFromLast(first, second, third).Build();
+
+        sut.AddAfter(third, inserted);
+        sut.Last!.Data.Should().Be(inserted);
+    }
+
+    [Fact]
     public void ShouldThrow_WhenAddingAfterAnElementNotExistingInAnyNode()
     {
-        
         const int first = 1;
         const int second = 2;
         const int third = 3;
@@ -136,7 +149,7 @@ public class LinkedListTests
         var sut = new LinkedListBuilder<int>().WithElementsFromLast(first, second, third).Build();
 
         var addAfterNonExisting = () => sut.AddAfter(notExisting, inserted);
-        
+
         addAfterNonExisting.Should().Throw<InvalidOperationException>().WithMessage($"Element {notExisting} not found in any node");
     }
 

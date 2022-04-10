@@ -47,6 +47,12 @@ public class LinkedList<T>
         var current = First;
         var inserted = new LinkedListNode<T>(insertedElement);
         
+        if (Last is {Data: not null} && Last.Data.Equals(existing))
+        {
+            Last.Next = inserted;
+            return;
+        }
+        
         while (current is {Next: { } next})
         {
             if (current.Data is not null && current.Data.Equals(existing))
