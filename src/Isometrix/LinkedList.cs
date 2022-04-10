@@ -104,4 +104,8 @@ public class LinkedList<T>
 
         First = null;
     }
+
+    public void RemoveLast()
+    {
+    }
 }

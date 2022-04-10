@@ -40,4 +40,14 @@ public class LinkedListTestsDeletingNodes
         sut.First!.Previous.Should().BeNull();
         sut.First.Next!.Data.Should().Be(third);
     }
+
+    [Fact]
+    public void ShouldRemoveLastInAnEmptyList()
+    {
+        var sut = new LinkedListBuilder<int>().Build();
+
+        sut.RemoveLast();
+
+        sut.Last.Should().BeNull();
+    }
 }
