@@ -14,4 +14,15 @@ public class LinkedListTestsDeletingNodes
 
         sut.First.Should().BeNull();
     }
+    
+    [Fact]
+    public void ShouldRemoveFirstNodeInAListWithOneNode()
+    {
+        var sut = new LinkedListBuilder<int>().WithElementsFromStart(1).Build();
+        
+        sut.RemoveFirst();
+
+        sut.First.Should().BeNull();
+    }
+    
 }
