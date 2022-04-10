@@ -65,6 +65,18 @@ public class LinkedListTests
         sut.First!.Next!.Next!.Data.Should().Be(first);
     }
 
+    [Fact]
+    public void ShouldAddLastNodeWhenFirstDoesNotExist_ThenBecomesFirst()
+    {
+        const int expected = 1;
+        var sut = new LinkedList<int>();
+        
+        sut.AddLast(expected);
+
+        sut.First!.Data.Should().Be(expected);
+    }
+    
+    
     private class TestType
     {
     }

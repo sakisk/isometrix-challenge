@@ -15,4 +15,8 @@ public class LinkedList<T>
 
         First = newFirstNode;
     }
+    public void AddLast(T element)
+    {
+        First ??= new LinkedListNode<T>(element);
+    }
 }
