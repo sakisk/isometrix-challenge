@@ -27,9 +27,17 @@ public class LinkedList<T>
         }
 
         var current = First;
+        var currentLast = GetLast(current);
+        
+        currentLast.Next = last;
+    }
+
+    private static LinkedListNode<T> GetLast(LinkedListNode<T> start)
+    {
+        var current = start;
         while (current is {Next: {} next}) 
             current = next;
-        
-        current.Next = last;
+
+        return current;
     }
 }
