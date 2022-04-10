@@ -9,11 +9,15 @@ public class LinkedList<T>
 
     public void AddFirst(T element)
     {
+        var oldFirst = First;
         var newFirstNode = new LinkedListNode<T>(element)
         {
-            Next = First
+            Next = oldFirst
         };
 
+       if (oldFirst is { })
+           oldFirst.Previous = newFirstNode;
+       
         First = newFirstNode;
     }
 
@@ -50,11 +54,17 @@ public class LinkedList<T>
         var inserted = new LinkedListNode<T>(insertedElement);
         var node = FindNode(existing);
         var oldPrevious = node.Previous;
-        
+
+        if (oldPrevious is null)
+        {
+            AddFirst(insertedElement);
+            return;
+        }
+
         node.Previous = inserted;
         inserted.Next = node;
         inserted.Previous = oldPrevious;
-        oldPrevious!.Next = inserted;
+        oldPrevious.Next = inserted;
     }
 
     private static LinkedListNode<T> GetLast(LinkedListNode<T> start)
