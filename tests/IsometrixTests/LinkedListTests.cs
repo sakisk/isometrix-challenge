@@ -104,6 +104,25 @@ public class LinkedListTests
         sut.Last!.Data.Should().Be(third);
     }
 
+    [Fact]
+    public void AddElementAfterNodeWithExistingElement()
+    {
+        const int first = 1;
+        const int second = 2;
+        const int third = 3;
+        const int inserted = 4;
+
+        var sut = new LinkedListBuilder<int>().WithElementsFromLast(first, second, third).Build();
+
+        sut.AddAfter(second, inserted);
+
+        using var _ = new AssertionScope();
+        sut.First!.Data.Should().Be(first);
+        sut.First!.Next!.Data.Should().Be(second);
+        sut.First!.Next!.Next!.Data.Should().Be(inserted);
+        sut.First!.Next!.Next!.Next!.Data.Should().Be(third);
+    }
+
     private class TestType
     {
     }

@@ -41,4 +41,22 @@ public class LinkedList<T>
 
         return current;
     }
+
+    public void AddAfter(T existing, T insertedElement)
+    {
+        var current = First;
+        var inserted = new LinkedListNode<T>(insertedElement);
+        
+        while (current is {Next: { } next})
+        {
+            if (current.Data is not null && current.Data.Equals(existing))
+            {
+                var oldNext = current.Next;
+                current.Next = inserted;
+                inserted.Next = oldNext;
+                return;
+            }
+            current = next;
+        }
+    }
 }
